@@ -93,6 +93,13 @@
     .btn-neutral:hover { background: color-mix(in oklab, var(--bg) 60%, var(--card)); }
 
     /* =========================
+       AVATAR
+       ========================= */
+    .avatar-wrap { display:inline-block; padding:3px; border-radius:50%; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow); }
+    .avatar { display:block; width: 112px; height:112px; border-radius:50%; object-fit: cover; background: #ddd; }
+    @media (min-width: 900px){ .avatar { width: 128px; height:128px; } }
+
+    /* =========================
        SECTIONS
        ========================= */
     section { scroll-margin-top: 96px; padding: 64px 0; }
@@ -164,12 +171,13 @@
     <div class="bg-bubble" aria-hidden="true"></div>
     <div class="container hero-grid">
       <div>
+        <div class="avatar-wrap" style="margin-bottom:12px;"><img class="avatar" src="https://raw.githubusercontent.com/ifeanyiokoye/graph-ai-portfolio/main/IfeanyiOkoyeMay25.jpg" alt="Ifeanyi C. Okoye" decoding="async" fetchpriority="high" /></div>
         <span class="chip">
           <!-- inline SVG brain icon -->
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm10 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM4 14a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm16 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM8 21a3 3 0 1 1 0-6h2v6H8Zm6 0v-6h2a3 3 0 1 1 0 6h-2Z" stroke="currentColor" stroke-width="1.5"/></svg>
           Personal portfolio • Cohort project
         </span>
-        <h1 class="title">Generative AI Portfolio</h1>
+        <h1 class="title">Ifeanyichukwu C. Okoye </h1>
         <p class="muted" style="max-width: 640px; margin-top: 10px;">
           Physician and Strategic Information leader with 19+ years of experience in Health Information Systems and Public Health. Passionate about scaling data‑driven programs, automating workflows, and translating insights into impact.
         </p>
