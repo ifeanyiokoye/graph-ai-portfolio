@@ -171,10 +171,12 @@
     <div class="bg-bubble" aria-hidden="true"></div>
     <div class="container hero-grid">
       <div>
-        <div class="avatar-wrap" style="margin-bottom:12px;"><img class="avatar" src="https://raw.githubusercontent.com/ifeanyiokoye/graph-ai-portfolio/main/IfeanyiOkoyeMay25.jpg" alt="Ifeanyi C. Okoye" decoding="async" fetchpriority="high" /></div>
+        <div class="avatar-wrap" style="margin-bottom:12px;">
+          <img class="avatar" src="https://raw.githubusercontent.com/ifeanyiokoye/graph-ai-portfolio/main/IfeanyiOkoyeMay25.jpg" alt="Ifeanyi C. Okoye" decoding="async" fetchpriority="high" />
+        </div>
         <span class="chip">
           <!-- inline SVG brain icon -->
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm10 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM4 14a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm16 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM8 21a3 3 0 1 1 0-6h2v6H8Zm6 0v-6h2a 3 3 0 1 1 0 6h-2Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm10 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM4 14a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm16 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM8 21a3 3 0 1 1 0-6h2v6H8Zm6 0v-6h2a3 3 0 1 1 0 6h-2Z" stroke="currentColor" stroke-width="1.5"/></svg>
           Personal portfolio • Cohort project
         </span>
         <h1 class="title">Ifeanyi C. Okoye — Generative AI Portfolio</h1>
@@ -186,7 +188,7 @@
           <a class="btn-primary" href="#submissions">View weekly submissions
             <span aria-hidden="true"> →</span>
           </a>
-          <a class="btn-neutral" href="https://www.linkedin.com/in/ifeanyichukwu-okoye/" target="_blank" rel="noreferrer">Connect on LinkedIn
+          <a class="btn-neutral" href="https://www.linkedin.com/in/ifeanyichukwu-okoye/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn
             <span aria-hidden="true"> ↗</span>
           </a>
           <a class="btn-neutral" href="#" title="Add your CV URL here">
@@ -337,9 +339,13 @@
     function el(tag, attrs = {}, children = []) {
       const node = document.createElement(tag);
       Object.entries(attrs).forEach(([k, v]) => {
-        if (k === 'class') node.className = v; else if (k === 'html') node.innerHTML = v; else node.setAttribute(k, v);
+        if (k === 'class') node.className = v;
+        else if (k === 'html') node.innerHTML = v;
+        else node.setAttribute(k, v);
       });
-      (Array.isArray(children) ? children : [children]).filter(Boolean).forEach(c => node.append(c.nodeType ? c : document.createTextNode(c)));
+      (Array.isArray(children) ? children : [children])
+        .filter(Boolean)
+        .forEach(c => node.append(c.nodeType ? c : document.createTextNode(c)));
       return node;
     }
 
@@ -356,14 +362,14 @@
       ]));
     });
 
-    // Submissions grid (Week 2 links to report)
+    // Submissions grid (Week 2 opens as a rendered webpage)
     const grid = document.getElementById('submissions-grid');
     modules.forEach(m => {
       const attrs = { class: 'submission reveal', href: '#', title: 'Coming soon' };
       if (m.week === 2) {
-        attrs.href = 'https://github.com/ifeanyiokoye/graph-ai-portfolio/blob/main/gapminder_analysis.html';
+        attrs.href = 'https://htmlpreview.github.io/?https://github.com/ifeanyiokoye/graph-ai-portfolio/blob/main/gapminder_analysis.html';
         attrs.target = '_blank';
-        attrs.rel = 'noreferrer';
+        attrs.rel = 'noopener noreferrer';
         attrs.title = 'View report';
       }
       const cta = m.week === 2 ? 'View report' : 'Coming soon';
@@ -371,7 +377,7 @@
         el('div', { class: 'meta' }, `Week ${m.week}`),
         el('h4', {}, m.title),
         el('p', {}, m.blurb),
-        el('div', { class: 'cta' }, [ cta, el('span', { ariaHidden: 'true' }, ' →') ])
+        el('div', { class: 'cta' }, [ cta, el('span', { 'aria-hidden': 'true' }, ' →') ])
       ]);
       grid.appendChild(item);
     });
