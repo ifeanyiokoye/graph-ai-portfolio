@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ifeanyi C. Okoye — Generative AI Portfolio</title>
+  <meta name="description" content="One-page portfolio for the Generative AI for Work & Research course. No frameworks — just HTML, CSS, and JS." />
+  <style>
+    /* =========================
+       THEME & BASE STYLES
+       ========================= */
+    :root {
+      --bg: #ffffff;
+      --bg-soft: #f6faff;
+      --text: #0b1220;
+      --muted: #5b6475;
+      --brand: #0ea5e9; /* sky-500 */
+      --brand-2: #6366f1; /* indigo-500 */
+      --card: #ffffff;
+      --border: #e6e8ee;
+      --shadow: 0 10px 30px rgba(10, 32, 66, 0.08);
+      --radius: 18px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0b0e14;
+        --bg-soft: #0f1522;
+        --text: #f3f7ff;
+        --muted: #b0b7c6;
+        --card: #0f1420;
+        --border: #1f2633;
+        --shadow: 0 10px 30px rgba(0,0,0,0.45);
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+
+    /* =========================
+       NAVIGATION
+       ========================= */
+    .navbar {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: saturate(140%) blur(8px);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; }
+    .brand-dot { width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, var(--brand) 0%, var(--brand-2) 70%); box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand) 25%, transparent); }
+    .nav { display: none; gap: 18px; }
+    .nav a { font-size: 14px; padding: 10px 10px; border-radius: 10px; opacity: 0.85; }
+    .nav a:hover { background: color-mix(in oklab, var(--brand) 12%, transparent); opacity: 1; }
+    .nav a.active { color: var(--brand); font-weight: 700; }
+    @media (min-width: 768px){ .nav { display: flex; } }
+
+    /* =========================
+       HERO
+       ========================= */
+    .hero { padding: 72px 0 24px; position: relative; overflow: clip; }
+    .bg-bubble {
+      position: absolute; right: -20%; top: -30%; width: 620px; height: 620px; border-radius: 50%;
+      background: radial-gradient(closest-side, color-mix(in oklab, var(--brand) 30%, transparent), transparent 70%);
+      filter: blur(40px); opacity: 0.5; pointer-events: none;
+    }
+    .hero-grid { display: grid; gap: 28px; }
+    @media (min-width: 900px) {
+      .hero-grid { grid-template-columns: 1.2fr 0.8fr; align-items: center; }
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px;
+      border: 1px solid color-mix(in oklab, var(--brand) 30%, var(--border));
+      background: color-mix(in oklab, var(--brand) 6%, transparent);
+      color: color-mix(in oklab, var(--brand) 60%, var(--text));
+      font-size: 13px;
+    }
+    .title { margin: 14px 0 0; font-size: 40px; font-weight: 800; letter-spacing: -0.02em; }
+    @media (min-width: 900px){ .title { font-size: 54px; } }
+    .pills { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .pill { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 999px; font-size: 13px; background: color-mix(in oklab, var(--bg) 80%, var(--card)); border: 1px solid var(--border); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .btn-primary { padding: 10px 14px; border-radius: 14px; background: var(--brand); color: #fff; font-weight: 600; box-shadow: var(--shadow); }
+    .btn-primary:hover { filter: brightness(0.95); }
+    .btn-neutral { padding: 10px 14px; border-radius: 14px; border: 1px solid var(--border); background: color-mix(in oklab, var(--bg) 70%, var(--card)); }
+    .btn-neutral:hover { background: color-mix(in oklab, var(--bg) 60%, var(--card)); }
+
+    /* =========================
+       AVATAR
+       ========================= */
+    .avatar-wrap { display:inline-block; padding:3px; border-radius:50%; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: var(--shadow); }
+    .avatar { display:block; width: 112px; height:112px; border-radius:50%; object-fit: cover; background: #ddd; }
+    @media (min-width: 900px){ .avatar { width: 128px; height:128px; } }
+
+    /* =========================
+       SECTIONS
+       ========================= */
+    section { scroll-margin-top: 96px; padding: 64px 0; }
+    .eyebrow { display: block; font-size: 13px; color: color-mix(in oklab, var(--text) 55%, var(--muted)); margin-bottom: 8px; font-weight: 600; }
+    .h2 { font-size: 32px; font-weight: 800; letter-spacing: -0.01em; }
+
+    /* =========================
+       LAYOUT HELPERS
+       ========================= */
+    .grid { display: grid; gap: 24px; }
+    @media (min-width: 900px){ .cols-12 { grid-template-columns: repeat(12, 1fr); } }
+    .col-7 { grid-column: span 12; } .col-5 { grid-column: span 12; }
+    @media (min-width: 900px){ .col-7 { grid-column: span 7; } .col-5 { grid-column: span 5; } }
+
+    .card { background: color-mix(in oklab, var(--bg) 70%, var(--card)); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); backdrop-filter: blur(6px); }
+
+    /* =========================
+       LISTS & TYPOGRAPHY
+       ========================= */
+    .ul { padding-left: 18px; margin: 12px 0; }
+    .ul li { margin: 6px 0; }
+    .muted { color: var(--muted); font-size: 14px; }
+
+    /* =========================
+       MODULES & SUBMISSIONS
+       ========================= */
+    .modules li { border: 1px solid var(--border); border-radius: 14px; padding: 14px; background: color-mix(in oklab, var(--bg) 70%, var(--card)); }
+    .submissions { display: grid; gap: 14px; }
+    @media (min-width: 640px){ .submissions { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px){ .submissions { grid-template-columns: repeat(3, 1fr); } }
+    .submission { display: block; border: 1px solid var(--border); border-radius: 16px; padding: 18px; background: color-mix(in oklab, var(--bg) 70%, var(--card)); transition: border-color .2s, transform .2s, box-shadow .2s; }
+    .submission:hover { border-color: color-mix(in oklab, var(--brand) 30%, var(--border)); transform: translateY(-2px); box-shadow: var(--shadow); }
+    .submission .meta { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .submission h4 { margin: 6px 0 0; font-size: 18px; }
+    .submission p { margin: 8px 0 0; font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .submission .cta { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; color: color-mix(in oklab, var(--brand) 60%, var(--text)); font-size: 14px; }
+
+    /* =========================
+       FOOTER
+       ========================= */
+    footer { padding: 28px 0; border-top: 1px solid var(--border); font-size: 14px; color: var(--muted); }
+    .footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* =========================
+       SIMPLE IN-VIEW ANIMATIONS (no frameworks)
+       ========================= */
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* ===== Report modal used for Week 2 only (kept intact) ===== */
+    .modal { position: fixed; inset: 0; z-index: 1000; display: none; grid-template-rows: auto 1fr;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(6px) saturate(120%); }
+    .modal.is-open { display: grid; }
+    .modal-chrome { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 12px;
+      background: color-mix(in oklab, var(--bg) 60%, var(--card)); border-bottom: 1px solid var(--border); box-shadow: var(--shadow); }
+    .modal-title { font-weight: 700; }
+    .modal-actions { display: flex; gap: 8px; }
+    .icon-btn, .link-btn { appearance: none; border: 1px solid var(--border); background: color-mix(in oklab, var(--bg) 70%, var(--card));
+      border-radius: 10px; padding: 8px 10px; cursor: pointer; font: inherit; color: inherit; }
+    .icon-btn:hover, .link-btn:hover { background: color-mix(in oklab, var(--bg) 60%, var(--card)); }
+    .modal-iframe { width: 100%; height: 100%; border: 0; background: #fff; }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="Home">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>Generative AI • Work & Research</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="#about" data-nav>About me</a>
+        <a href="#course" data-nav>About the course</a>
+        <a href="#submissions" data-nav>Weekly submissions</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="top" class="hero">
+    <div class="bg-bubble" aria-hidden="true"></div>
+    <div class="container hero-grid">
+      <div>
+        <div class="avatar-wrap" style="margin-bottom:12px;">
+          <img class="avatar" src="https://raw.githubusercontent.com/ifeanyiokoye/graph-ai-portfolio/main/IfeanyiOkoyeMay25.jpg" alt="Ifeanyi C. Okoye" decoding="async" fetchpriority="high" />
+        </div>
+        <span class="chip">
+          <!-- inline SVG brain icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 9a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm10 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM4 14a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM16 8a3 3 0 1 1 0 6m-8 1h2v6H8m6 0v-6h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Personal portfolio • Cohort project
+        </span>
+        <h1 class="title">Ifeanyi C. Okoye — Generative AI Portfolio</h1>
+        <p class="muted" style="max-width: 640px; margin-top: 10px;">
+          Physician and Strategic Information leader with 19+ years of experience in Health Information Systems and Public Health. Passionate about scaling data-driven programs, automating workflows, and translating insights into impact.
+        </p>
+        <div class="pills" id="skills"></div>
+        <div class="actions">
+          <a class="btn-primary" href="#submissions">View weekly submissions
+            <span aria-hidden="true"> →</span>
+          </a>
+          <a class="btn-neutral" href="https://www.linkedin.com/in/ifeanyichukwu-okoye/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn
+            <span aria-hidden="true"> ↗</span>
+          </a>
+          <a class="btn-neutral" href="#" title="Add your CV URL here">
+            <!-- file icon -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: -2px; margin-right: 6px;" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6Z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6" stroke="currentColor" stroke-width="1.5"/></svg>
+            Download CV (PDF)
+          </a>
+        </div>
+      </div>
+      <aside>
+        <div class="card reveal" id="snapshot">
+          <div style="display:flex; align-items:center; gap:10px; color: color-mix(in oklab, var(--brand) 60%, var(--text));">
+            <!-- graduation cap icon -->
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m12 3 10 5-10 5L2 8l10-5Z" stroke="currentColor" stroke-width="1.5"/><path d="M22 8v5" stroke="currentColor" stroke-width="1.5"/><path d="M2 13s3 4 10 4 10-4 10-4" stroke="currentColor" stroke-width="1.5"/></svg>
+            <h3 style="margin:0; font-weight:700;">Course snapshot</h3>
+          </div>
+          <ul class="ul" style="margin-top:10px; font-size:14px;">
+            <li>8-week live cohort • No-code AI tools for task automation</li>
+            <li>Weekly workshops, help sessions, and personalized feedback</li>
+            <li>Capstone coaching • Shareable certificate • Lifetime tutorial access</li>
+            <li>Grading: Quizzes 15% • Assignments 35% • Attendance 10% • Final project 40%</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ABOUT ME -->
+  <section id="about">
+    <div class="container">
+      <span class="eyebrow">About</span>
+      <h2 class="h2">About me</h2>
+      <div class="grid cols-12" style="margin-top: 18px;">
+        <div class="col-7">
+          <p>
+            I’m an Associate Director for Strategic Information with a track record of leading large, multi-site health programs and building robust information systems (EMR/DHIS2) that drive measurable outcomes. I thrive at the intersection of program leadership, data engineering, and decision support.
+          </p>
+          <ul class="ul">
+            <li>Delivered a real-time EMR for the Nigerian Military HIV Program (ViVA EMR).</li>
+            <li>Led SI/M&E components of national strategies and tool revisions for Nigeria's HIV program.</li>
+            <li>Developed the RADET tool used across &gt;1,500 PEPFAR and 22 Global Fund facilities.</li>
+            <li>Multiple U.S. Mission Nigeria awards recognizing innovation and program impact.</li>
+          </ul>
+        </div>
+        <div class="col-5">
+          <div class="card reveal">
+            <h3 style="margin-top:0;">Education</h3>
+            <ul class="ul" style="font-size:14px;">
+              <li><strong>MBA</strong>, University of Suffolk — expected Nov 2025</li>
+              <li><strong>M.Sc. Information Science</strong>, ARCIS (Best Graduating Student)</li>
+              <li><strong>MBBS</strong>, University of Ibadan</li>
+            </ul>
+            <h3>Core strengths</h3>
+            <ul class="ul" style="font-size:14px;">
+              <li>Strategy &amp; leadership for SI/M&amp;E</li>
+              <li>Interoperable health data systems</li>
+              <li>Automation for reporting and QA</li>
+              <li>Capacity building &amp; stakeholder engagement</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT THE COURSE -->
+  <section id="course">
+    <div class="container">
+      <span class="eyebrow">Bootcamp</span>
+      <h2 class="h2">About the course</h2>
+      <div class="grid cols-12" style="margin-top: 18px;">
+        <div class="col-7">
+          <p><strong>Generative AI for Work &amp; Research</strong> is a hands-on, 8-week live cohort on no-code AI tools for task automation and research productivity. It combines weekly workshops, help sessions, and tailored feedback within a supportive community.</p>
+          <div class="pills">
+            <span class="pill">Weekly live workshops</span>
+            <span class="pill">Help sessions</span>
+            <span class="pill">Capstone coaching</span>
+            <span class="pill">Personalized feedback</span>
+            <span class="pill">Certificate of completion</span>
+            <span class="pill">Lifetime tutorials access</span>
+          </div>
+          <h3 style="margin-top:18px;">Modules (highlights)</h3>
+          <ol class="ul modules" id="modules-list"></ol>
+          <p class="muted">Grading rubric: Quizzes 15% · Assignments 35% · Attendance &amp; participation 10% · Final project 40%.</p>
+        </div>
+        <div class="col-5">
+          <div class="card reveal">
+            <h3 style="margin-top:0;">Learning outcomes</h3>
+            <ul class="ul" style="font-size:14px;">
+              <li>Explain LLM concepts and apply prompt patterns for research tasks.</li>
+              <li>Automate data prep, analysis, and reporting with AI assistants.</li>
+              <li>Design custom GPTs/chatbots with retrieval over your corpus.</li>
+              <li>Build agentic workflows to reduce repetitive effort.</li>
+              <li>Create clear visuals, summaries, and outreach artifacts.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEKLY SUBMISSIONS -->
+  <section id="submissions">
+    <div class="container">
+      <span class="eyebrow">Deliverables</span>
+      <h2 class="h2">My weekly submissions</h2>
+      <p class="muted">Each tile links to a write-up, code, or demo as submissions are published.</p>
+      <div class="submissions" id="submissions-grid" style="margin-top: 12px;"></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+      <p>© <span id="year"></span> Ifeanyi C. Okoye. Built for the cohort: <strong>Generative AI for Work &amp; Research</strong>.</p>
+      <div class="footer-links">
+        <a href="#about">About me</a>
+        <a href="#course">About the course</a>
+        <a href="#submissions">Weekly submissions</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======= REPORT MODAL (Week 2) ======= -->
+  <div id="wk2-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="wk2-title">
+    <div class="modal-chrome">
+      <div class="modal-title" id="wk2-title">Workshop 2: Automated Data Analysis</div>
+      <div class="modal-actions">
+        <a id="wk2-newtab" class="link-btn" href="https://raw.githack.com/ifeanyiokoye/graph-ai-portfolio/main/gapminder_analysis.html" target="_blank" rel="noopener noreferrer">Open in new tab ↗</a>
+        <button id="wk2-close" class="icon-btn" type="button" aria-label="Close">Close ✕</button>
+      </div>
+    </div>
+    <iframe id="wk2-frame" class="modal-iframe"
+      sandbox="allow-scripts allow-forms allow-popups allow-modals allow-pointer-lock"
+      referrerpolicy="no-referrer">
+    </iframe>
+  </div>
+
+  <script>
+    // =============================
+    // DATA (no frameworks)
+    // =============================
+    const skills = [
+      "Health Information Systems (DHIS2, EMR)",
+      "Monitoring & Evaluation (PEPFAR context)",
+      "Data Analysis & Visualization (R, Tableau, STATA)",
+      "Program/Project Leadership & Strategy",
+    ];
+
+    const modules = [
+      { week: 1, title: "Websites, Documents & Presentations", blurb: "Learn how LLMs work, generate text (Markdown/LaTeX/HTML), and build simple research sites with no-code tools. Use AI assistants to structure papers, grants, and slides." },
+      { week: 2, title: "Workshop 2: Automated Data Analysis", blurb: "Analyzed Gapminder data to explore relationships between two global indicators using AI tools." },
+      { week: 3, title: "Workshop 3: Job Market Analysis", blurb: "Explored job market trends and indicators with AI tools; interactive report." },
+      { week: 4, title: "Custom GPTs & Chatbots", blurb: "Understand context windows and RAG; build custom GPTs and interactive chatbots (e.g., Botpress) integrated with your knowledge base." },
+      { week: 5, title: "AI for Task Automation", blurb: "Design agentic flows for repetitive research tasks, automate email responses, and control browsers for web-based tasks." },
+      { week: 6, title: "GenAI for Communication & Outreach", blurb: "Produce research summaries, figures, and video abstracts; practice prompt patterns for scientific visualization and scheduling content." },
+      { week: 7, title: "Capstone Project & Showcase", blurb: "Build a final AI solution with coaching, peer feedback, and a public presentation." },
+      { week: 8, title: "Final Project Polish & Submission", blurb: "Wrap-up, refinements, and submission package (report, demo, and readme)." },
+    ];
+
+    // =============================
+    // RENDER HELPERS
+    // =============================
+    function el(tag, attrs = {}, children = []) {
+      const node = document.createElement(tag);
+      Object.entries(attrs).forEach(([k, v]) => {
+        if (k === 'class') node.className = v;
+        else if (k === 'html') node.innerHTML = v;
+        else node.setAttribute(k, v);
+      });
+      (Array.isArray(children) ? children : [children])
+        .filter(Boolean)
+        .forEach(c => node.append(c.nodeType ? c : document.createTextNode(c)));
+      return node;
+    }
+
+    // Skills pills
+    const skillsWrap = document.getElementById('skills');
+    skills.forEach(s => skillsWrap.appendChild(el('span', { class: 'pill' }, s)));
+
+    // Modules list (highlights)
+    const modulesList = document.getElementById('modules-list');
+    modules.slice(0, 7).forEach(m => {
+      modulesList.appendChild(el('li', {}, [
+        el('span', { style: 'font-weight:700;' }, `Week ${m.week} — ${m.title}. `),
+        m.blurb
+      ]));
+    });
+
+    // Submissions grid
+    const grid = document.getElementById('submissions-grid');
+    modules.forEach(m => {
+      const attrs = { class: 'submission reveal', href: '#', title: 'Coming soon' };
+
+      // Week 2 opens embedded modal (kept from your previous setup)
+      if (m.week === 2) {
+        attrs['data-open-week2'] = '1';
+        attrs.title = 'View report';
+      }
+
+      // Week 3 opens interactive report via GitHack in a new tab
+      if (m.week === 3) {
+        attrs.href = 'https://raw.githack.com/ifeanyiokoye/graph-ai-portfolio/main/job_market_analysis_report.html';
+        attrs.target = '_blank';
+        attrs.rel = 'noopener noreferrer';
+        attrs.title = 'View report';
+      }
+
+      const cta = (m.week === 2 || m.week === 3) ? 'View report' : 'Coming soon';
+      const item = el('a', attrs, [
+        el('div', { class: 'meta' }, `Week ${m.week}`),
+        el('h4', {}, m.title),
+        el('p', {}, m.blurb),
+        el('div', { class: 'cta' }, [ cta, el('span', { 'aria-hidden': 'true' }, ' →') ])
+      ]);
+      grid.appendChild(item);
+    });
+
+    // Year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // In-view animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+    }, { threshold: 0.18 });
+    document.querySelectorAll('.reveal').forEach(elm => observer.observe(elm));
+
+    // Scroll spy
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    const navLinks = Array.from(document.querySelectorAll('[data-nav]'));
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        const id = e.target.getAttribute('id');
+        const link = navLinks.find(a => a.getAttribute('href') === `#${id}`);
+        if (e.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { root: null, threshold: 0.4 });
+    sections.forEach(s => spy.observe(s));
+
+    // ======= Week 2 embedded modal handlers (unchanged) =======
+    const modal = document.getElementById('wk2-modal');
+    const frame = document.getElementById('wk2-frame');
+    const closeBtn = document.getElementById('wk2-close');
+    const openers = document.querySelectorAll('[data-open-week2]');
+    const template = document.getElementById('week2-report-html');
+    const fallbackURL = 'https://raw.githack.com/ifeanyiokoye/graph-ai-portfolio/main/gapminder_analysis.html';
+
+    function openModalWithReport() {
+      const html = template ? template.innerHTML.trim() : '';
+      if (!html) {
+        window.open(fallbackURL, '_blank', 'noopener');
+        return;
+      }
+      frame.removeAttribute('src');
+      frame.srcdoc = html;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      frame.removeAttribute('srcdoc');
+      frame.removeAttribute('src');
+    }
+    openers.forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); openModalWithReport(); }));
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+  </script>
+
+  <!-- Week 2 optional embedded HTML (kept) -->
+  <template id="week2-report-html">
+    <!-- If you want Week 2 embedded, paste its HTML here. Otherwise it falls back to GitHack. -->
+  </template>
+</body>
+</html>
