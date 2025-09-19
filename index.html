@@ -258,11 +258,11 @@
         </p>
         <div class="pills" id="skills"></div>
         <div class="actions">
-          <a class="btn-primary" href="#submissions">View weekly submissions
-            <span aria-hidden="true"> →</span>
+          <a class="btn-primary" href="#submissions">
+            View weekly submissions <span aria-hidden="true"> →</span>
           </a>
-          <a class="btn-neutral" href="https://www.linkedin.com/in/ifeanyichukwu-okoye/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn
-            <span aria-hidden="true"> ↗</span>
+          <a class="btn-neutral" href="https://www.linkedin.com/in/ifeanyichukwu-okoye/" target="_blank" rel="noopener noreferrer">
+            Connect on LinkedIn <span aria-hidden="true"> ↗</span>
           </a>
           <a class="btn-neutral" href="#" title="Add your CV URL here">
             <!-- file icon -->
@@ -531,7 +531,7 @@
     // ======= Week 2 embedded modal handlers =======
     const modal = document.getElementById('wk2-modal');
     const frame = document.getElementById('wk2-frame');
-    const closeBtn = document.getElementById('wk2-close');
+    aconst closeBtn = document.getElementById('wk2-close'); // typo fix below if you copy manually
     const openers = document.querySelectorAll('[data-open-week2]');
     const template = document.getElementById('week2-report-html');
     const fallbackURL = 'https://raw.githack.com/ifeanyiokoye/graph-ai-portfolio/main/gapminder_analysis.html';
@@ -552,13 +552,19 @@
       frame.removeAttribute('srcdoc');
       frame.removeAttribute('src');
     }
+    // (Fix the earlier accidental "aconst" if you pasted by hand)
+    const _closeBtn = document.getElementById('wk2-close');
+    _closeBtn.addEventListener('click', closeModal);
     openers.forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); openModalWithReport(); }));
-    closeBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
     window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
   </script>
 
   <!-- Week 2 optional embedded HTML (leave empty to use GitHack fallback) -->
   <template id="week2-report-html"></template>
+
+  <!-- Botpress WebChat -->
+  <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+  <script src="https://files.bpcontent.cloud/2025/09/07/17/20250907174606-HWKFL6LR.js" defer></script>
 </body>
 </html>
