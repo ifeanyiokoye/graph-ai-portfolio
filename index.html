@@ -182,19 +182,68 @@
     .submission .cta { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; color: color-mix(in oklab, var(--tile, var(--brand)) 60%, var(--text)); font-size: 14px; }
 
     /* =========================
-       CONTACT SECTION (Form)
+       CONTACT (refined band + shell)
        ========================= */
-    .form-note { font-size: 14px; color: var(--muted); margin: 8px 0 16px; }
-    .iframe-wrap { width: 100%; }
+    #contact {
+      position: relative;
+      overflow: clip;
+      background:
+        linear-gradient(180deg, color-mix(in oklab, var(--bg) 96%, var(--brand) 4%), var(--bg) 100%);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    #contact::before,
+    #contact::after {
+      content: "";
+      position: absolute; pointer-events: none; filter: blur(44px); opacity: .55;
+    }
+    #contact::before {
+      width: 520px; height: 320px; left: -180px; top: -80px;
+      background: radial-gradient(closest-side, color-mix(in oklab, var(--brand) 18%, transparent), transparent 70%);
+    }
+    #contact::after {
+      width: 620px; height: 360px; right: -240px; bottom: -120px;
+      background: radial-gradient(closest-side, color-mix(in oklab, var(--brand-2) 18%, transparent), transparent 70%);
+    }
+    .contact-wrap { max-width: 900px; margin: 0 auto; }
+    .form-shell {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: color-mix(in oklab, var(--bg) 75%, var(--card));
+      box-shadow: var(--shadow);
+      overflow: clip;
+    }
+    .form-shell .shell-bar {
+      height: 8px;
+      background: linear-gradient(90deg,
+        color-mix(in oklab, var(--brand) 70%, #fff),
+        color-mix(in oklab, var(--brand-2) 50%, #000));
+      opacity: .9;
+    }
+    .form-shell .shell-header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in oklab, var(--bg) 70%, var(--card));
+    }
+    .form-shell .shell-title { font-weight: 700; }
+    .form-shell .shell-actions { display: flex; gap: 8px; }
+    .link-btn {
+      appearance: none; border: 1px solid var(--border);
+      background: color-mix(in oklab, var(--bg) 75%, var(--card));
+      border-radius: 10px; padding: 8px 10px; cursor: pointer;
+      font: inherit; color: inherit; text-decoration: none;
+    }
+    .link-btn:hover { background: color-mix(in oklab, var(--bg) 60%, var(--card)); }
     .form-frame {
       width: 100%;
       height: clamp(720px, 82vh, 1400px);
       border: 0;
       background: #fff;
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
+      display: block;
     }
+    .form-note { font-size: 14px; color: var(--muted); margin: 8px 0 16px; }
+    #contact .h2 { margin-bottom: 6px; }
 
     /* =========================
        FOOTER
@@ -217,7 +266,7 @@
     .modal-title { font-weight: 700; }
     .modal-actions { display: flex; gap: 8px; }
     .icon-btn, .link-btn { appearance: none; border: 1px solid var(--border); background: color-mix(in oklab, var(--bg) 70%, var(--card));
-      border-radius: 10px; padding: 8px 10px; cursor: pointer; font: inherit; color: inherit; }
+      border-radius: 10px; padding: 8px 10px; cursor: pointer; font: inherit; color: inherit; text-decoration: none; }
     .icon-btn:hover, .link-btn:hover { background: color-mix(in oklab, var(--bg) 60%, var(--card)); }
     .modal-iframe { width: 100%; height: 100%; border: 0; background: #fff; }
   </style>
@@ -373,25 +422,35 @@
     </div>
   </section>
 
-  <!-- CONTACT FOR CONSULTATION -->
+  <!-- CONTACT FOR CONSULTATION (refined) -->
   <section id="contact">
-    <div class="container">
+    <div class="container contact-wrap">
       <span class="eyebrow">Consultation</span>
       <h2 class="h2">Contact for Consultation</h2>
       <p class="form-note">Use the form below to request a consultation. Your message will go directly to me — no email address is shown on this site.</p>
-      <div class="iframe-wrap card reveal">
+
+      <div class="form-shell card reveal" style="padding:0;">
+        <div class="shell-bar" aria-hidden="true"></div>
+        <div class="shell-header">
+          <div class="shell-title">Consultation Request Form</div>
+          <div class="shell-actions">
+            <a class="link-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDx3VRhMpJ3r1fwRNXsjk8g0LFL_hl8FFVAOsxq8p1vIRJAg/viewform"
+               target="_blank" rel="noopener noreferrer">Open full page ↗</a>
+          </div>
+        </div>
         <iframe
+          id="consultation-frame"
           class="form-frame"
           title="Consultation Request Form"
           src="https://docs.google.com/forms/d/e/1FAIpQLSeDx3VRhMpJ3r1fwRNXsjk8g0LFL_hl8FFVAOsxq8p1vIRJAg/viewform?embedded=true"
-          marginheight="0"
-          marginwidth="0">
+          loading="lazy"
+          referrerpolicy="no-referrer">
           Loading…
         </iframe>
       </div>
-      <p class="form-note" style="margin-top:10px;">
-        Prefer a full page?
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDx3VRhMpJ3r1fwRNXsjk8g0LFL_hl8FFVAOsxq8p1vIRJAg/viewform" target="_blank" rel="noopener noreferrer">Open the form in a new tab ↗</a>
+
+      <p class="form-note" style="margin-top:12px;">
+        Tip: if the form feels tall on your device, use the “Open full page” button above.
       </p>
     </div>
   </section>
@@ -451,113 +510,154 @@
     function el(tag, attrs = {}, children = []) {
       const node = document.createElement(tag);
       Object.entries(attrs).forEach(([k, v]) => {
-        if (k === 'class') node.className = v; else if (k === 'html') node.innerHTML = v; else node.setAttribute(k, v);
+        if (k === 'class') node.className = v;
+        else if (k === 'html') node.innerHTML = v;
+        else node.setAttribute(k, v);
       });
       (Array.isArray(children) ? children : [children]).filter(Boolean).forEach(c => node.append(c.nodeType ? c : document.createTextNode(c)));
       return node;
     }
 
     // Skills pills
-    const skillsWrap = document.getElementById('skills');
-    skills.forEach(s => skillsWrap.appendChild(el('span', { class: 'pill' }, s)));
+    (function renderSkills(){
+      const skillsWrap = document.getElementById('skills');
+      if (!skillsWrap) return;
+      skills.forEach(s => skillsWrap.appendChild(el('span', { class: 'pill' }, s)));
+    })();
 
     // Modules list (highlights)
-    const modulesList = document.getElementById('modules-list');
-    modules.slice(0, 7).forEach(m => {
-      modulesList.appendChild(el('li', {}, [
-        el('span', { style: 'font-weight:700;' }, `Week ${m.week} — ${m.title}. `),
-        m.blurb
-      ]));
-    });
+    (function renderModulesList(){
+      const modulesList = document.getElementById('modules-list');
+      if (!modulesList) return;
+      modules.slice(0, 7).forEach(m => {
+        modulesList.appendChild(el('li', {}, [
+          el('span', { style: 'font-weight:700;' }, `Week ${m.week} — ${m.title}. `),
+          m.blurb
+        ]));
+      });
+    })();
 
     // Accent color palette for tiles
     const palette = ['#0ea5e9','#6366f1','#10b981','#f59e0b','#ef4444','#8b5cf6','#14b8a6','#e11d48'];
 
     // Submissions grid
-    const grid = document.getElementById('submissions-grid');
-    modules.forEach(m => {
-      const attrs = { class: 'submission reveal', href: '#', title: 'Coming soon' };
+    (function renderSubmissions(){
+      const grid = document.getElementById('submissions-grid');
+      if (!grid) return;
+      modules.forEach(m => {
+        const attrs = { class: 'submission reveal', href: '#', title: 'Coming soon' };
 
-      // Week 2 opens embedded modal (with GitHack fallback)
-      if (m.week === 2) { attrs['data-open-week2'] = '1'; attrs.title = 'View report'; }
+        // Week 2 opens embedded modal (with GitHack fallback)
+        if (m.week === 2) { attrs['data-open-week2'] = '1'; attrs.title = 'View report'; }
 
-      // Week 3 opens interactive report via GitHack in a new tab
-      if (m.week === 3) {
-        attrs.href = 'https://raw.githack.com/ifeanyiokoye/graph-ai-portfolio/main/job_market_analysis_report.html';
-        attrs.target = '_blank';
-        attrs.rel = 'noopener noreferrer';
-        attrs.title = 'View report';
-      }
+        // Week 3 opens interactive report via GitHack in a new tab
+        if (m.week === 3) {
+          attrs.href = 'https://raw.githack.com/ifeanyiokoye/graph-ai-portfolio/main/job_market_analysis_report.html';
+          attrs.target = '_blank';
+          attrs.rel = 'noopener noreferrer';
+          attrs.title = 'View report';
+        }
 
-      const cta = (m.week === 2 || m.week === 3) ? 'View report' : 'Coming soon';
-      const item = el('a', attrs, [
-        el('div', { class: 'meta' }, `Week ${m.week}`),
-        el('h4', {}, m.title),
-        el('p', {}, m.blurb),
-        el('div', { class: 'cta' }, [ cta, el('span', { 'aria-hidden': 'true' }, ' →') ])
-      ]);
+        const cta = (m.week === 2 || m.week === 3) ? 'View report' : 'Coming soon';
+        const item = el('a', attrs, [
+          el('div', { class: 'meta' }, `Week ${m.week}`),
+          el('h4', {}, m.title),
+          el('p', {}, m.blurb),
+          el('div', { class: 'cta' }, [ cta, el('span', { 'aria-hidden': 'true' }, ' →') ])
+        ]);
 
-      // Set per-tile accent color via CSS variable
-      const color = palette[(m.week - 1) % palette.length];
-      item.style.setProperty('--tile', color);
+        // Set per-tile accent color via CSS variable
+        const color = palette[(m.week - 1) % palette.length];
+        item.style.setProperty('--tile', color);
 
-      grid.appendChild(item);
-    });
+        grid.appendChild(item);
+      });
+    })();
 
     // Year in footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+    (function setYear(){
+      const yr = document.getElementById('year');
+      if (yr) yr.textContent = new Date().getFullYear();
+    })();
 
-    // In-view animations
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
-    }, { threshold: 0.18 });
-    document.querySelectorAll('.reveal').forEach(elm => observer.observe(elm));
+    // In-view animations (guard for older browsers)
+    (function revealOnView(){
+      const items = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('in'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+      }, { threshold: 0.18 });
+      items.forEach(elm => observer.observe(elm));
+    })();
 
-    // Scroll spy
-    const sections = Array.from(document.querySelectorAll('section[id]'));
-    const navLinks = Array.from(document.querySelectorAll('[data-nav]'));
-    const spy = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        const id = e.target.getAttribute('id');
-        const link = navLinks.find(a => a.getAttribute('href') === `#${id}`);
-        if (e.isIntersecting) {
-          navLinks.forEach(a => a.classList.remove('active'));
-          if (link) link.classList.add('active');
-        }
-      });
-    }, { root: null, threshold: 0.4 });
-    sections.forEach(s => spy.observe(s));
+    // Scroll spy (guard)
+    (function scrollSpy(){
+      if (!('IntersectionObserver' in window)) return;
+      const sections = Array.from(document.querySelectorAll('section[id]'));
+      const navLinks = Array.from(document.querySelectorAll('[data-nav]'));
+      const spy = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          const id = e.target.getAttribute('id');
+          const link = navLinks.find(a => a.getAttribute('href') === `#${id}`);
+          if (e.isIntersecting) {
+            navLinks.forEach(a => a.classList.remove('active'));
+            if (link) link.classList.add('active');
+          }
+        });
+      }, { root: null, threshold: 0.4 });
+      sections.forEach(s => spy.observe(s));
+    })();
 
-    // ======= Week 2 embedded modal handlers =======
-    const modal = document.getElementById('wk2-modal');
-    const frame = document.getElementById('wk2-frame');
-    aconst closeBtn = document.getElementById('wk2-close'); // typo fix below if you copy manually
-    const openers = document.querySelectorAll('[data-open-week2]');
-    const template = document.getElementById('week2-report-html');
-    const fallbackURL = 'https://raw.githack.com/ifeanyiokoye/graph-ai-portfolio/main/gapminder_analysis.html';
+    // ======= Week 2 embedded modal handlers (fixed syntax) =======
+    (function week2Modal(){
+      const modal = document.getElementById('wk2-modal');
+      const frame = document.getElementById('wk2-frame');
+      const closeBtn = document.getElementById('wk2-close'); // fixed
+      const openers = document.querySelectorAll('[data-open-week2]');
+      const template = document.getElementById('week2-report-html');
+      const fallbackURL = 'https://raw.githack.com/ifeanyiokoye/graph-ai-portfolio/main/gapminder_analysis.html';
 
-    function openModalWithReport() {
-      const html = template ? template.innerHTML.trim() : '';
-      if (!html) { window.open(fallbackURL, '_blank', 'noopener'); return; }
-      frame.removeAttribute('src');
-      frame.srcdoc = html;
-      modal.classList.add('is-open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal() {
-      modal.classList.remove('is-open');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      frame.removeAttribute('srcdoc');
-      frame.removeAttribute('src');
-    }
-    // (Fix the earlier accidental "aconst" if you pasted by hand)
-    const _closeBtn = document.getElementById('wk2-close');
-    _closeBtn.addEventListener('click', closeModal);
-    openers.forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); openModalWithReport(); }));
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+      if (!modal || !frame) return;
+
+      function openModalWithReport() {
+        const html = template ? template.innerHTML.trim() : '';
+        if (!html) { window.open(fallbackURL, '_blank', 'noopener'); return; }
+        frame.removeAttribute('src');
+        frame.srcdoc = html;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeModal() {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        frame.removeAttribute('srcdoc');
+        frame.removeAttribute('src');
+      }
+
+      openers.forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); openModalWithReport(); }));
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+    })();
+
+    // ======= Consultation form: responsive height helper =======
+    (function sizeConsultationForm(){
+      const iframe = document.getElementById('consultation-frame');
+      if (!iframe) return;
+      const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+      function resizeForm() {
+        const vh = window.innerHeight || document.documentElement.clientHeight || 900;
+        const target = window.matchMedia('(max-width: 768px)').matches ? vh * 0.88 : vh * 0.84;
+        iframe.style.height = clamp(target, 680, 1400) + 'px';
+      }
+      resizeForm();
+      window.addEventListener('resize', resizeForm, { passive: true });
+    })();
   </script>
 
   <!-- Week 2 optional embedded HTML (leave empty to use GitHack fallback) -->
