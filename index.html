@@ -124,18 +124,77 @@
     .muted { color: var(--muted); font-size: 14px; }
 
     /* =========================
-       MODULES & SUBMISSIONS
+       MODULES & SUBMISSIONS (with contrast accents)
        ========================= */
+    #submissions { position: relative; overflow: clip; }
+    #submissions::before,
+    #submissions::after {
+      content: "";
+      position: absolute; pointer-events: none; filter: blur(42px); opacity: 0.55;
+    }
+    #submissions::before {
+      width: 640px; height: 360px; right: -240px; top: -140px;
+      background: radial-gradient(closest-side, color-mix(in oklab, var(--brand) 22%, transparent), transparent 70%);
+    }
+    #submissions::after {
+      width: 520px; height: 320px; left: -200px; bottom: -120px;
+      background: radial-gradient(closest-side, color-mix(in oklab, var(--brand-2) 22%, transparent), transparent 70%);
+    }
+
     .modules li { border: 1px solid var(--border); border-radius: 14px; padding: 14px; background: color-mix(in oklab, var(--bg) 70%, var(--card)); }
     .submissions { display: grid; gap: 14px; }
     @media (min-width: 640px){ .submissions { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1024px){ .submissions { grid-template-columns: repeat(3, 1fr); } }
-    .submission { display: block; border: 1px solid var(--border); border-radius: 16px; padding: 18px; background: color-mix(in oklab, var(--bg) 70%, var(--card)); transition: border-color .2s, transform .2s, box-shadow .2s; }
-    .submission:hover { border-color: color-mix(in oklab, var(--brand) 30%, var(--border)); transform: translateY(-2px); box-shadow: var(--shadow); }
-    .submission .meta { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+
+    .submission {
+      position: relative;
+      border: 1px solid color-mix(in oklab, var(--tile, var(--brand)) 32%, var(--border));
+      border-radius: 16px;
+      padding: 18px;
+      background:
+        linear-gradient(180deg,
+          color-mix(in oklab, var(--tile, var(--brand)) 6%, var(--card)),
+          color-mix(in oklab, var(--bg) 88%, var(--card)));
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      box-shadow: var(--shadow), 0 0 0 4px color-mix(in oklab, var(--tile, var(--brand)) 6%, transparent) inset;
+    }
+    .submission::before {
+      content: "";
+      position: absolute; left: 0; right: 0; top: 0; height: 4px;
+      border-top-left-radius: 16px; border-top-right-radius: 16px;
+      background: linear-gradient(90deg,
+        color-mix(in oklab, var(--tile, var(--brand)) 70%, #fff),
+        color-mix(in oklab, var(--tile, var(--brand)) 30%, #000));
+      opacity: .85;
+    }
+    .submission:hover {
+      border-color: color-mix(in oklab, var(--tile, var(--brand)) 50%, var(--border));
+      transform: translateY(-2px);
+      box-shadow: var(--shadow), 0 10px 36px color-mix(in oklab, var(--tile, var(--brand)) 24%, transparent);
+    }
+    .submission:focus-visible {
+      outline: 3px solid color-mix(in oklab, var(--tile, var(--brand)) 55%, transparent);
+      outline-offset: 2px;
+    }
+    .submission .meta { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: color-mix(in oklab, var(--tile, var(--brand)) 48%, var(--muted)); }
     .submission h4 { margin: 6px 0 0; font-size: 18px; }
     .submission p { margin: 8px 0 0; font-size: 14px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .submission .cta { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; color: color-mix(in oklab, var(--brand) 60%, var(--text)); font-size: 14px; }
+    .submission .cta { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; color: color-mix(in oklab, var(--tile, var(--brand)) 60%, var(--text)); font-size: 14px; }
+
+    /* =========================
+       CONTACT SECTION (Form)
+       ========================= */
+    .form-note { font-size: 14px; color: var(--muted); margin: 8px 0 16px; }
+    .iframe-wrap { width: 100%; }
+    .form-frame {
+      width: 100%;
+      height: clamp(720px, 82vh, 1400px);
+      border: 0;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
 
     /* =========================
        FOOTER
@@ -149,7 +208,7 @@
     .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
     .reveal.in { opacity: 1; transform: none; }
 
-    /* ===== Report modal used for Week 2 only (kept intact) ===== */
+    /* ===== Report modal used for Week 2 only ===== */
     .modal { position: fixed; inset: 0; z-index: 1000; display: none; grid-template-rows: auto 1fr;
       background: rgba(0,0,0,0.5); backdrop-filter: blur(6px) saturate(120%); }
     .modal.is-open { display: grid; }
@@ -175,6 +234,7 @@
         <a href="#about" data-nav>About me</a>
         <a href="#course" data-nav>About the course</a>
         <a href="#submissions" data-nav>Weekly submissions</a>
+        <a href="#contact" data-nav>Contact</a>
       </nav>
     </div>
   </header>
@@ -313,6 +373,29 @@
     </div>
   </section>
 
+  <!-- CONTACT FOR CONSULTATION -->
+  <section id="contact">
+    <div class="container">
+      <span class="eyebrow">Consultation</span>
+      <h2 class="h2">Contact for Consultation</h2>
+      <p class="form-note">Use the form below to request a consultation. Your message will go directly to me — no email address is shown on this site.</p>
+      <div class="iframe-wrap card reveal">
+        <iframe
+          class="form-frame"
+          title="Consultation Request Form"
+          src="https://docs.google.com/forms/d/e/1FAIpQLSeDx3VRhMpJ3r1fwRNXsjk8g0LFL_hl8FFVAOsxq8p1vIRJAg/viewform?embedded=true"
+          marginheight="0"
+          marginwidth="0">
+          Loading…
+        </iframe>
+      </div>
+      <p class="form-note" style="margin-top:10px;">
+        Prefer a full page?
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeDx3VRhMpJ3r1fwRNXsjk8g0LFL_hl8FFVAOsxq8p1vIRJAg/viewform" target="_blank" rel="noopener noreferrer">Open the form in a new tab ↗</a>
+      </p>
+    </div>
+  </section>
+
   <footer>
     <div class="container" style="display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
       <p>© <span id="year"></span> Ifeanyi C. Okoye. Built for the cohort: <strong>Generative AI for Work &amp; Research</strong>.</p>
@@ -320,6 +403,7 @@
         <a href="#about">About me</a>
         <a href="#course">About the course</a>
         <a href="#submissions">Weekly submissions</a>
+        <a href="#contact">Contact</a>
       </div>
     </div>
   </footer>
@@ -367,13 +451,9 @@
     function el(tag, attrs = {}, children = []) {
       const node = document.createElement(tag);
       Object.entries(attrs).forEach(([k, v]) => {
-        if (k === 'class') node.className = v;
-        else if (k === 'html') node.innerHTML = v;
-        else node.setAttribute(k, v);
+        if (k === 'class') node.className = v; else if (k === 'html') node.innerHTML = v; else node.setAttribute(k, v);
       });
-      (Array.isArray(children) ? children : [children])
-        .filter(Boolean)
-        .forEach(c => node.append(c.nodeType ? c : document.createTextNode(c)));
+      (Array.isArray(children) ? children : [children]).filter(Boolean).forEach(c => node.append(c.nodeType ? c : document.createTextNode(c)));
       return node;
     }
 
@@ -390,16 +470,16 @@
       ]));
     });
 
+    // Accent color palette for tiles
+    const palette = ['#0ea5e9','#6366f1','#10b981','#f59e0b','#ef4444','#8b5cf6','#14b8a6','#e11d48'];
+
     // Submissions grid
     const grid = document.getElementById('submissions-grid');
     modules.forEach(m => {
       const attrs = { class: 'submission reveal', href: '#', title: 'Coming soon' };
 
-      // Week 2 opens embedded modal (kept from your previous setup)
-      if (m.week === 2) {
-        attrs['data-open-week2'] = '1';
-        attrs.title = 'View report';
-      }
+      // Week 2 opens embedded modal (with GitHack fallback)
+      if (m.week === 2) { attrs['data-open-week2'] = '1'; attrs.title = 'View report'; }
 
       // Week 3 opens interactive report via GitHack in a new tab
       if (m.week === 3) {
@@ -416,6 +496,11 @@
         el('p', {}, m.blurb),
         el('div', { class: 'cta' }, [ cta, el('span', { 'aria-hidden': 'true' }, ' →') ])
       ]);
+
+      // Set per-tile accent color via CSS variable
+      const color = palette[(m.week - 1) % palette.length];
+      item.style.setProperty('--tile', color);
+
       grid.appendChild(item);
     });
 
@@ -443,7 +528,7 @@
     }, { root: null, threshold: 0.4 });
     sections.forEach(s => spy.observe(s));
 
-    // ======= Week 2 embedded modal handlers (unchanged) =======
+    // ======= Week 2 embedded modal handlers =======
     const modal = document.getElementById('wk2-modal');
     const frame = document.getElementById('wk2-frame');
     const closeBtn = document.getElementById('wk2-close');
@@ -453,10 +538,7 @@
 
     function openModalWithReport() {
       const html = template ? template.innerHTML.trim() : '';
-      if (!html) {
-        window.open(fallbackURL, '_blank', 'noopener');
-        return;
-      }
+      if (!html) { window.open(fallbackURL, '_blank', 'noopener'); return; }
       frame.removeAttribute('src');
       frame.srcdoc = html;
       modal.classList.add('is-open');
@@ -476,18 +558,7 @@
     window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
   </script>
 
-  <!-- Week 2 optional embedded HTML (kept) -->
-  <template id="week2-report-html">
-    <!-- If you want Week 2 embedded, paste its HTML here. Otherwise it falls back to GitHack. -->
-  </template>
-
- 
-<script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
-<script src="https://files.bpcontent.cloud/2025/09/07/17/20250907174606-HWKFL6LR.js" defer></script>
-    
-    
-  
+  <!-- Week 2 optional embedded HTML (leave empty to use GitHack fallback) -->
+  <template id="week2-report-html"></template>
 </body>
 </html>
-
-
